@@ -10,8 +10,10 @@ class SelfAttention(nn.Module):
         self.mha = nn.MultiheadAttention(embed_dim=channels, num_heads=4, batch_first=True)
         self.ln_pre = nn.LayerNorm([size * size, channels])
         self.ff_self = nn.Sequential(
+            nn.LayerNorm([channels]),
             nn.Linear(channels, channels),
             nn.GELU(),
+            nn.LayerNorm([channels]),
             nn.Linear(channels, channels),
         )
         self.ln_post = nn.LayerNorm([size * size, channels])
